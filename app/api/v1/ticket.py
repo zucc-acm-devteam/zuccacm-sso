@@ -30,6 +30,6 @@ def check_ticket_api():
         return NotFound(msg='用户不存在')
     key = redis_key_prefix + 'session::' + user.username
     ticket = rd.get(key)
-    if ticket is None:
+    if ticket is None or ticket != form['ticket']:
         return Forbidden(msg='校验失败')
     return Success(msg='校验成功')
