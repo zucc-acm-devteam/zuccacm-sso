@@ -4,9 +4,7 @@ from app.libs.error_code import Success, NotFound, Forbidden, DeleteSuccess
 from app.libs.red_print import RedPrint
 from app.validators.user import LoginForm
 from app.models.user import User
-from app import redis as rd
-from app.config.config import redis_key_prefix, ticket_expire_time
-from app.libs.helper import generate_ticket
+from app.libs.helper import renew_ticket
 
 api = RedPrint('session')
 
@@ -25,10 +23,7 @@ def create_session_api():
         raise NotFound(msg='用户不存在')
     if not user.check_password(form['password']):
         raise Forbidden(msg='密码错误')
-    ticket = generate_ticket()
-    key = redis_key_prefix + 'session::' + user.username
-    rd.set(key, ticket)
-    rd.expire(key, ticket_expire_time)
+    renew_ticket(user)
     login_user(user, remember=True)
     return Success(msg='登录成功')
 
