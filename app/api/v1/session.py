@@ -25,7 +25,7 @@ def create_session_api():
         raise Forbidden(msg='密码错误')
     renew_ticket(user)
     login_user(user, remember=True)
-    return Success(msg='登录成功')
+    return Success(msg='登录成功', data=user)
 
 
 @api.route('', methods=['DELETE'])
