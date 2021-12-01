@@ -13,17 +13,7 @@ api = RedPrint('ticket')
 def get_ticket_api():
     ticket = get_ticket(current_user)
     if ticket is None:
-        return NotFound()
-    return Success(data={
-        'username': current_user.username,
-        'ticket': ticket
-    })
-
-
-@api.route('/renew', methods=['POST'])
-@login_required
-def renew_ticket_api():
-    ticket = renew_ticket(current_user)
+        ticket = renew_ticket(current_user)
     return Success(data={
         'username': current_user.username,
         'ticket': ticket
