@@ -24,7 +24,7 @@ def create_session_api():
     if not user.check_password(form['password']):
         raise Forbidden(msg='密码错误')
     renew_ticket(user)
-    login_user(user, remember=True)
+    login_user(user)
     return Success(msg='登录成功', data=user)
 
 
